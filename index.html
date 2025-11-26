@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Você ❤️</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0b0b0b;
+            color: #e63946;
+            font-family: "Georgia", serif;
+            overflow: hidden;
+        }
+
+        /* --- BOTÃO CORAÇÃO --- */
+        .heart-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 5rem;
+            color: #ff0033;
+            animation: pulse 1.3s infinite;
+            transition: 0.3s;
+        }
+
+        .heart-button:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* --- ANIMAÇÃO DA CARTA --- */
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #111;
+            border: 2px solid #e63946;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: 1s ease;
+        }
+
+        .envelope.open {
+            height: 0px;
+            opacity: 0;
+            transition: 1s ease;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, #8b0000, #300000);
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+        }
+
+        /* --- CARTA QUE SURGE --- */
+        .card {
+            opacity: 0;
+            margin: 50px auto;
+            max-width: 750px;
+            padding: 35px;
+            background: #111;
+            border: 2px solid #e63946;
+            border-radius: 14px;
+            box-shadow: 0 0 40px #e6394666;
+            animation: fadeIn 1.5s ease forwards;
+            animation-delay: 1.2s;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff0033;
+            font-size: 2.4rem;
+        }
+
+        p {
+            color: #ffffffcc;
+            font-size: 1.2rem;
+            line-height: 1.7rem;
+            text-align: justify;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px #e63946aa;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #ff0033;
+            font-style: italic;
+        }
+
+        /* Corações flutuando */
+        .floating-heart {
+            position: fixed;
+            bottom: -10px;
+            font-size: 18px;
+            color: #ff0033aa;
+            animation: float 6s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 1; }
+            100% { transform: translateY(-120vh) translateX(30px); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Botão coração -->
+    <button class="heart-button" id="heartBtn">❤️</button>
+
+    <!-- Envelope desaparecendo -->
+    <div class="envelope" id="envelope"></div>
+
+    <!-- Carta -->
+    <div class="card" id="card">
+        <h1>Para Você ❤️</h1>
+
+        <p>
+            A gente se conhece há tão pouco tempo, e mesmo assim, cada dia ao seu lado tem sido incrível.  
+            Cada momento que passa, eu gosto ainda mais de você.  
+            Sei que tenho meus defeitos, penso demais às vezes, mas a cada dia me sinto mais tranquilo e seguro com você.<br><br>
+
+            Sei que já falei aquelas frases meio clichês, tipo "vai passar a vida toda comigo"… mas é sério, kkk.  
+            Tudo que eu puder fazer para que isso aconteça, eu farei.<br><br>
+
+            Esse pequeno presente é só uma forma de carinho, um jeito de te mostrar o quanto você é especial para mim.  
+            Feliz aniversário, minha gostosa ❤️
+        </p>
+
+        <video controls>
+            <source src="assets/seu_video.mp4" type="video/mp4">
+        </video>
+
+        <div class="footer">
+            Com carinho, de alguém que está gostando muito de você ❤️
+        </div>
+    </div>
+
+    <!-- CORAÇÕES FLUTUANDO -->
+    <script>
+        function floatingHeart() {
+            const h = document.createElement("div");
+            h.className = "floating-heart";
+            h.innerHTML = "❤️";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = (Math.random() * 20 + 10) + "px";
+            h.style.animationDuration = (Math.random() * 4 + 3) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 7000);
+        }
+        setInterval(floatingHeart, 500);
+
+        // Abertura da carta
+        document.getElementById("heartBtn").onclick = () => {
+            document.getElementById("heartBtn").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("heartBtn").style.display = "none";
+                const env = document.getElementById("envelope");
+                env.style.opacity = "1";
+                env.style.pointerEvents = "auto";
+
+                setTimeout(() => {
+                    env.classList.add("open");
+                }, 700);
+
+                setTimeout(() => {
+                    document.getElementById("card").style.display = "block";
+                }, 1700);
+            }, 500);
+        };
+    </script>
+
+</body>
+</html>
+<video controls>
+    <source src="assets/Vídeo do WhatsApp de 2025-11-26 à(s) 01.52.52_81d0022f.mp4">
+    Seu navegador não suporta vídeos.
+</video>
