@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para byanca ❤️</title>
+    <title>Para Você ❤️</title>
 
     <style>
         body {
@@ -17,10 +17,6 @@
 
         /* --- BOTÃO CORAÇÃO --- */
         .heart-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background: none;
             border: none;
             cursor: pointer;
@@ -31,13 +27,13 @@
         }
 
         .heart-button:hover {
-            transform: translate(-50%, -50%) scale(1.2);
+            transform: scale(1.2);
         }
 
         @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.15); }
-            100% { transform: translate(-50%, -50%) scale(1); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
 
         /* --- ANIMAÇÃO DA CARTA --- */
@@ -135,13 +131,33 @@
             0% { transform: translateY(0) translateX(0); opacity: 1; }
             100% { transform: translateY(-120vh) translateX(30px); opacity: 0; }
         }
+
+        /* Texto "Clique aqui" */
+        .click-text {
+            color: #ff0033;
+            font-family: Georgia, serif;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Container do botão coração + texto */
+        .heart-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Botão coração -->
-    <button class="heart-button" id="heartBtn">❤️</button>
+    <!-- Botão coração com "Clique aqui" -->
+    <div class="heart-container">
+        <button class="heart-button" id="heartBtn">❤️</button>
+        <div class="click-text">Clique aqui</div>
+    </div>
 
     <!-- Envelope desaparecendo -->
     <div class="envelope" id="envelope"></div>
@@ -162,7 +178,7 @@
             Feliz aniversário, minha gostosa ❤️
         </p>
 
-        <!-- Vídeo corrigido -->
+        <!-- Vídeo -->
         <video controls>
             <source src="assets/video.mp4" type="video/mp4">
             Seu navegador não suporta vídeos.
@@ -189,9 +205,9 @@
 
         // Abertura da carta
         document.getElementById("heartBtn").onclick = () => {
-            document.getElementById("heartBtn").style.opacity = "0";
+            document.querySelector(".heart-container").style.opacity = "0";
             setTimeout(() => {
-                document.getElementById("heartBtn").style.display = "none";
+                document.querySelector(".heart-container").style.display = "none";
                 const env = document.getElementById("envelope");
                 env.style.opacity = "1";
                 env.style.pointerEvents = "auto";
@@ -209,4 +225,3 @@
 
 </body>
 </html>
-
