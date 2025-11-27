@@ -1,51 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Você ❤️</title>
-<style>
-body {
-    margin: 0; padding: 0; background: #0b0b0b; color: #e63946;
-    font-family: Georgia, serif; overflow-x: hidden;
-}
-/* Botão Próximo no canto inferior direito */
-#nextBtn {
-    position: fixed; bottom: 20px; right: 20px;
-    background: #000; color: #00f; border: 2px solid #00f;
-    padding: 15px 25px; font-size: 1.2rem; cursor: pointer;
-}
-#nextBtn:hover { background: #111; }
-.heart-container { position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); text-align:center; }
-.heart-button { background:none; border:none; font-size:5rem; color:#ff0033; cursor:pointer; animation:pulse 1.3s infinite; }
-@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);} }
-.card { display:none; max-width:700px; margin:50px auto; padding:30px; background:#111; border:2px solid #e63946; border-radius:10px; color:#fff; text-align:center; }
-</style>
-</head>
-<body>
-
+<!-- Mantendo seu código inicial -->
 <div class="heart-container">
     <button class="heart-button" id="heartBtn">❤️</button>
-    <div>Clique aqui</div>
+    <div class="click-text">Clique aqui</div>
 </div>
 
 <div class="card" id="card">
     <h1>Para Você ❤️</h1>
     <p>
-        A gente se conhece há tão pouco tempo, e mesmo assim, cada dia ao seu lado tem sido incrível.
+        A gente se conhece há tão pouco tempo, e mesmo assim, cada dia ao seu lado tem sido incrível.  
         Feliz aniversário, minha gostosa ❤️
     </p>
+    <div class="gallery">
+        <img id="currentImage" src="assets/foto1.jpg" alt="Memória">
+    </div>
 </div>
 
-<button id="nextBtn" onclick="window.location.href='labirinto.html'">PRÓXIMO</button>
+<!-- Botão PRÓXIMO, inicialmente escondido -->
+<button id="nextBtn" style="display:none; position:fixed; bottom:20px; right:20px; background:black; color:#00f; border:2px solid #00f; padding:10px 20px; cursor:pointer;"
+onclick="window.location.href='labirinto.html'">PRÓXIMO</button>
 
 <script>
 const heartBtn = document.getElementById("heartBtn");
 const card = document.getElementById("card");
+const nextBtn = document.getElementById("nextBtn");
+
 heartBtn.onclick = () => {
-    card.style.display = "block";
-    heartBtn.style.display = "none";
-}
+    card.style.display = "block";       // Mostra a carta
+    heartBtn.style.display = "none";    // Oculta o coração
+    nextBtn.style.display = "block";    // Mostra botão PRÓXIMO
+};
 </script>
-</body>
-</html>
