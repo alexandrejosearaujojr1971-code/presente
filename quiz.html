@@ -3,86 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz</title>
+<title>Quiz ❤️</title>
 <style>
-body { background:#111; color:#fff; font-family:Georgia, serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; }
-.container { background:#222; padding:30px; border:2px solid #00f; border-radius:10px; text-align:center; max-width:500px; }
-h1 { color:#0ff; }
-button { margin:10px; padding:10px 20px; font-size:1rem; cursor:pointer; border:2px solid #0ff; background:black; color:#0ff; border-radius:5px; }
-#btnProximo { display:none; background:#000; color:#0ff; border:2px solid blue; padding:12px 25px; font-size:1.2rem; margin-top:20px; }
-#msg { margin-top:15px; color:#ff0; min-height:20px; }
+body{ margin:0; padding:0; background:#111; color:#fff; font-family:Georgia, serif; display:flex; justify-content:center; align-items:center; flex-direction:column; }
+button{ margin:10px; padding:10px 20px; cursor:pointer; }
+#nextBtn{ display:none; margin-top:20px; background:#000; color:#0ff; border:2px solid #0ff; }
 </style>
 </head>
 <body>
-
-<div class="container" id="quizContainer">
-  <h1 id="pergunta"></h1>
-  <div id="opcoes"></div>
-  <div id="msg"></div>
-  <button id="btnProximo" onclick="nextTela()">PRÓXIMO</button>
-</div>
+<h1 id="question"></h1>
+<div id="options"></div>
+<button id="nextBtn" onclick="window.location.href='pedido.html'">PRÓXIMO</button>
 
 <script>
 const quiz = [
-  {
-    pergunta:"Qual a data que nos conhecemos?",
-    opcoes:["12 de outubro de 2025","13 de outubro de 2025","14 de outubro de 2025","15 de outubro de 2025"],
-    correta:1,
-    msgErr:"Não acredito que errou isso sua cagona, próxima..."
-  },
-  {
-    pergunta:"Qual amendoim eu mais gosto?",
-    opcoes:["do verde","picante","tradicional","não gosto de amendoim"],
-    correta:1,
-    msgErr:"Não acredito que errou isso sua cagona, próxima..."
-  },
-  {
-    pergunta:"Quando você gostaria de ser pedida em namoro?",
-    opcoes:["1 semana depois de ficar","beijou já quero namorar","quando de fato ficou intenso","no dia do seu aniversario","no ano novo"],
-    correta:3,
-    msgErr:"Todas estão certas mas só uma vai acontecer, acerte a resposta"
-  }
+{q:"Qual a data que nos conhecemos?", o:["12 de outubro","13 de outubro","14 de outubro","15 de outubro"], a:1},
+{q:"Qual amendoim eu mais gosto?", o:["do verde","picante","tradicional","não gosto"], a:1},
+{q:"Quando você gostaria de ser pedida em namoro?", o:["1 semana depois de ficar","beijou já quero namorar","quando de fato ficou intenso","no dia do seu aniversario","no ano novo"], a:3}
 ];
+let i=0;
+const questionEl=document.getElementById("question");
+const optionsEl=document.getElementById("options");
+const nextBtn=document.getElementById("nextBtn");
 
-let index=0;
-const perguntaEl=document.getElementById("pergunta");
-const opcoesEl=document.getElementById("opcoes");
-const msgEl=document.getElementById("msg");
-const btnProximo=document.getElementById("btnProximo");
-
-function carregarPergunta(){
-    msgEl.textContent="";
-    btnProximo.style.display="none";
-    perguntaEl.textContent=quiz[index].pergunta;
-    opcoesEl.innerHTML="";
-    quiz[index].opcoes.forEach((op,i)=>{
-        const b=document.createElement("button");
-        b.textContent=op;
-        b.onclick=()=>verificarResposta(i);
-        opcoesEl.appendChild(b);
+function showQuestion(){
+    questionEl.textContent=quiz[i].q;
+    optionsEl.innerHTML="";
+    quiz[i].o.forEach((opt,index)=>{
+        const btn=document.createElement("button");
+        btn.textContent=opt;
+        btn.onclick=()=>{ 
+            if(index===quiz[i].a) nextBtn.style.display='block';
+            else alert(i===2?"Todas estão certas mas só uma vai acontecer, acerte a resposta":"Não acredito que errou isso, sua cagona");
+        };
+        optionsEl.appendChild(btn);
     });
 }
-
-function verificarResposta(selecionado){
-    if(selecionado===quiz[index].correta){
-        msgEl.textContent="Resposta correta!";
-        btnProximo.style.display="inline-block";
-    }else{
-        msgEl.textContent=quiz[index].msgErr;
-        btnProximo.style.display="inline-block";
-    }
-}
-
-function nextTela(){
-    index++;
-    if(index>=quiz.length){
-        location.href="pedido.html";
-    }else{
-        carregarPergunta();
-    }
-}
-
-carregarPergunta();
+showQuestion();
 </script>
 </body>
 </html>
