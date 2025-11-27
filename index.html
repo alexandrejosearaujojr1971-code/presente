@@ -3,61 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Byanca  ❤️</title>
+<title>Para Você ❤️</title>
 <style>
-/* --- SEU CSS EXISTENTE --- */
-body {
-    margin: 0; padding: 0;
-    background: #0b0b0b;
-    color: #e63946;
-    font-family: "Georgia", serif;
-    overflow-y: auto;
-}
-.heart-button { background:none;border:none;cursor:pointer;font-size:5rem;color:#ff0033;animation:pulse 1.3s infinite;transition:0.3s;}
-.heart-button:hover { transform: scale(1.2); }
-@keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
-.heart-container {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.click-text {color:#ff0033;font-family:Georgia, serif;font-size:1.2rem;margin-top:10px;}
-.envelope {width:300px;height:200px;background:#111;border:2px solid #e63946;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:8px;overflow:hidden;opacity:0;pointer-events:none;transition:1s ease;}
-.envelope.open {height:0px;opacity:0;transition:1s ease;}
-.envelope::before {content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom right,#8b0000,#300000);clip-path:polygon(0 0,100% 0,50% 50%);}
-.card {opacity:0;margin:50px auto;max-width:750px;padding:35px;background:#111;border:2px solid #e63946;border-radius:14px;box-shadow:0 0 40px #e6394666;animation:fadeIn 1.5s ease forwards;animation-delay:1.2s;display:none;}
-@keyframes fadeIn {from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
-h1 {text-align:center;color:#ff0033;font-size:2.4rem;}
-p {color:#ffffffcc;font-size:1.2rem;line-height:1.7rem;text-align:justify;}
-.gallery {margin-top:20px;text-align:center;}
-.gallery img {width:80%;max-width:600px;border-radius:12px;box-shadow:0 0 20px #e63946aa;transition:opacity 1s ease-in-out;}
-.footer {text-align:center;margin-top:20px;color:#ff0033;font-style:italic;}
-.floating-heart {position:fixed;bottom:-10px;font-size:18px;color:#ff0033aa;animation:float 6s linear infinite;z-index:-1;}
-@keyframes float {0%{transform:translateY(0) translateX(0);opacity:1;}100%{transform:translateY(-120vh) translateX(30px);opacity:0;}}
-
-/* --- BOTÃO PRÓXIMO no canto inferior direito --- */
-#btnProximo {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: black;
-    color: #00f;
-    border: 2px solid blue;
-    padding: 12px 25px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: none;
-}
+body {margin:0;padding:0;background:#0b0b0b;color:#e63946;font-family:Georgia, serif;overflow-y:auto;}
+.heart-button {background:none;border:none;cursor:pointer;font-size:5rem;color:#ff0033;animation:pulse 1.3s infinite;transition:0.3s;z-index:10;position:relative;}
+.heart-button:hover{transform:scale(1.2);}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+.heart-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;}
+.click-text{color:#ff0033;font-family:Georgia;font-size:1.2rem;margin-top:10px;}
+.envelope{width:300px;height:200px;background:#111;border:2px solid #e63946;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:8px;overflow:hidden;opacity:0;transition:1s ease;z-index:5;}
+.envelope.open{height:0px;opacity:0;transition:1s ease;}
+.envelope::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom right,#8b0000,#300000);clip-path:polygon(0 0,100% 0,50% 50%);}
+.card{opacity:0;margin:50px auto;max-width:750px;padding:35px;background:#111;border:2px solid #e63946;border-radius:14px;box-shadow:0 0 40px #e6394666;animation:fadeIn 1.5s ease forwards;animation-delay:1.2s;display:none;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+h1{text-align:center;color:#ff0033;font-size:2.4rem;}
+p{color:#ffffffcc;font-size:1.2rem;line-height:1.7rem;text-align:justify;}
+.gallery{margin-top:20px;text-align:center;}
+.gallery img{width:80%;max-width:600px;border-radius:12px;box-shadow:0 0 20px #e63946aa;transition:opacity 1s ease-in-out;}
+.footer{text-align:center;margin-top:20px;color:#ff0033;font-style:italic;}
+.floating-heart{position:fixed;bottom:-10px;font-size:18px;color:#ff0033aa;animation:float 6s linear infinite;z-index:-1;}
+@keyframes float{0%{transform:translateY(0) translateX(0);opacity:1;}100%{transform:translateY(-120vh) translateX(30px);opacity:0;}}
+#btnProximo{position:fixed;bottom:20px;right:20px;background:black;color:#00f;border:2px solid blue;padding:12px 25px;font-size:1.2rem;cursor:pointer;display:none;}
 </style>
 </head>
 <body>
 
-<!-- Botão coração -->
 <div class="heart-container">
     <button class="heart-button" id="heartBtn">❤️</button>
     <div class="click-text">Clique aqui</div>
 </div>
 
-<!-- Envelope -->
 <div class="envelope" id="envelope"></div>
 
-<!-- Carta -->
 <div class="card" id="card">
     <h1>Para Você ❤️</h1>
     <p>
@@ -69,316 +46,56 @@ p {color:#ffffffcc;font-size:1.2rem;line-height:1.7rem;text-align:justify;}
         Esse pequeno presente é só uma forma de carinho, um jeito de te mostrar o quanto você é especial para mim.  
         Feliz aniversário, minha gostosa ❤️
     </p>
-
-    <!-- GALERIA DE FOTOS -->
     <div class="gallery">
         <img id="currentImage" src="assets/foto1.jpg" alt="Memória">
     </div>
-
     <div class="footer">
         Com carinho, de alguém que está gostando muito de você ❤️
     </div>
 </div>
 
-<!-- Botão PRÓXIMO -->
 <button id="btnProximo">PRÓXIMO</button>
-
-<!-- Áudio -->
 <audio id="bgMusic" src="assets/music.mp3"></audio>
 
 <script>
 // Corações flutuando
-function floatingHeart() {
-    const h = document.createElement("div");
-    h.className = "floating-heart";
-    h.innerHTML = "❤️";
-    h.style.left = Math.random()*100+"vw";
-    h.style.fontSize = (Math.random()*20+10)+"px";
-    h.style.animationDuration = (Math.random()*4+3)+"s";
+function floatingHeart(){
+    const h=document.createElement("div");
+    h.className="floating-heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(Math.random()*20+10)+"px";
+    h.style.animationDuration=(Math.random()*4+3)+"s";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),7000);
 }
 setInterval(floatingHeart,500);
 
-// Galeria
-const images = [
-  "assets/foto1.jpg","assets/foto2.jpg","assets/foto3.jpg","assets/foto4.jpg"
-];
+// Galeria de fotos
+const images=["assets/foto1.jpg","assets/foto2.jpg","assets/foto3.jpg"];
 let currentIndex=0;
 const currentImage=document.getElementById("currentImage");
 const bgMusic=document.getElementById("bgMusic");
-let intervalId;
 
 function startGallery(){
     document.querySelector(".heart-container").style.display="none";
     const env=document.getElementById("envelope");
     env.style.opacity="1";
-    env.style.pointerEvents="auto";
     setTimeout(()=>env.classList.add("open"),700);
     setTimeout(()=>document.getElementById("card").style.display="block",1700);
     bgMusic.play();
-    intervalId=setInterval(()=>{
+    setInterval(()=>{
         currentIndex++;
         if(currentIndex>=images.length) currentIndex=0;
         currentImage.style.opacity=0;
-        setTimeout(()=>{
-            currentImage.src=images[currentIndex];
-            currentImage.style.opacity=1;
-        },500);
+        setTimeout(()=>{currentImage.src=images[currentIndex]; currentImage.style.opacity=1;},500);
     },3000);
-    // Mostrar botão PRÓXIMO após 3 segundos (ou ajuste)
     setTimeout(()=>document.getElementById("btnProximo").style.display="block",3000);
 }
 
 document.getElementById("heartBtn").onclick=startGallery;
+document.getElementById("btnProximo").onclick=()=>location.href="labirinto.html";
+</script>
 
-// Botão PRÓXIMO
-document.getElementById("btnProximo").onclick = () => {
-    location.href = "labirinto.html";
-};
-    
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Labirinto Fácil</title>
-<style>
-body { display:flex; justify-content:center; align-items:center; height:100vh; background:#222; margin:0; }
-#labirinto { position:relative; width:400px; height:400px; background:#ccc; border:2px solid #000; }
-.parede { position:absolute; background:#000; }
-#parede1 { top:50px; left:0; width:300px; height:20px; }
-#parede2 { top:150px; left:100px; width:20px; height:250px; }
-#bola { position:absolute; width:20px; height:20px; border-radius:50%; background:red; top:10px; left:10px; }
-#meta { position:absolute; width:30px; height:30px; background:yellow; bottom:10px; right:10px; }
-#proximo { display:none; position:fixed; bottom:20px; right:20px; background:black; color:#00f; border:2px solid blue; padding:12px 25px; font-size:1.2rem; cursor:pointer; }
-</style>
-</head>
-<body>
-<div id="labirinto">
-  <div class="parede" id="parede1"></div>
-  <div class="parede" id="parede2"></div>
-  <div id="bola"></div>
-  <div id="meta"></div>
-</div>
-<button id="proximo" onclick="location.href='quiz.html'">PRÓXIMO</button>
-
-<script>
-const bola=document.getElementById('bola');
-const lab=document.getElementById('labirinto');
-const paredes=document.querySelectorAll('.parede');
-const meta=document.getElementById('meta');
-const btnProximo=document.getElementById('proximo');
-let pos={x:10,y:10};
-const velocidade=5;
-
-function colidiu(x,y){
-  const bolaBox={x1:x,y1:y,x2:x+20,y2:y+20};
-  for(let p of paredes){
-    const rect=p.getBoundingClientRect();
-    const labRect=lab.getBoundingClientRect();
-    const px1=rect.left-labRect.left;
-    const py1=rect.top-labRect.top;
-    const px2=px1+rect.width;
-    const py2=py1+rect.height;
-    if(bolaBox.x2>px1 && bolaBox.x1<px2 && bolaBox.y2>py1 && bolaBox.y1<py2) return true;
-  }
-  if(bolaBox.x1<0||bolaBox.y1<0||bolaBox.x2>lab.clientWidth||bolaBox.y2>lab.clientHeight) return true;
-  return false;
-}
-
-function moveBola(dx,dy){
-  let nx=pos.x+dx;
-  let ny=pos.y+dy;
-  if(!colidiu(nx,ny)){
-    pos.x=nx; pos.y=ny;
-    bola.style.left=pos.x+'px';
-    bola.style.top=pos.y+'px';
-    const bx=pos.x+10; const by=pos.y+10;
-    const mx=meta.offsetLeft+15; const my=meta.offsetTop+15;
-    if(Math.abs(bx-mx)<15 && Math.abs(by-my)<15) btnProximo.style.display='block';
-  }
-}
-
-document.addEventListener('keydown',e=>{
-  switch(e.key){
-    case 'ArrowUp': moveBola(0,-velocidade); break;
-    case 'ArrowDown': moveBola(0,velocidade); break;
-    case 'ArrowLeft': moveBola(-velocidade,0); break;
-    case 'ArrowRight': moveBola(velocidade,0); break;
-  }
-});
-
-// Controle touch
-let startX,startY;
-lab.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; startY=e.touches[0].clientY; });
-lab.addEventListener('touchmove',e=>{
-  const dx=e.touches[0].clientX-startX;
-  const dy=e.touches[0].clientY-startY;
-  if(Math.abs(dx)>Math.abs(dy)) moveBola(dx>0?velocidade:-velocidade,0);
-  else moveBola(0,dy>0?velocidade:-velocidade);
-  startX=e.touches[0].clientX; startY=e.touches[0].clientY;
-  e.preventDefault();
-});
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz</title>
-<style>
-body { background:#111; color:#fff; font-family:Georgia, serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; }
-.container { background:#222; padding:30px; border:2px solid #00f; border-radius:10px; text-align:center; max-width:500px; }
-h1 { color:#0ff; }
-button { margin:10px; padding:10px 20px; font-size:1rem; cursor:pointer; border:2px solid #0ff; background:black; color:#0ff; border-radius:5px; }
-#btnProximo { display:none; background:#000; color:#0ff; border:2px solid blue; padding:12px 25px; font-size:1.2rem; margin-top:20px; }
-#msg { margin-top:15px; color:#ff0; min-height:20px; }
-</style>
-</head>
-<body>
-
-<div class="container" id="quizContainer">
-  <h1 id="pergunta"></h1>
-  <div id="opcoes"></div>
-  <div id="msg"></div>
-  <button id="btnProximo" onclick="nextTela()">PRÓXIMO</button>
-</div>
-
-<script>
-const quiz = [
-  {
-    pergunta:"Qual a data que nos conhecemos?",
-    opcoes:["12 de outubro de 2025","13 de outubro de 2025","14 de outubro de 2025","15 de outubro de 2025"],
-    correta:1,
-    msgErr:"Não acredito que errou isso sua cagona, próxima..."
-  },
-  {
-    pergunta:"Qual amendoim eu mais gosto?",
-    opcoes:["do verde","picante","tradicional","não gosto de amendoim"],
-    correta:1,
-    msgErr:"Não acredito que errou isso sua cagona, próxima..."
-  },
-  {
-    pergunta:"Quando você gostaria de ser pedida em namoro?",
-    opcoes:["1 semana depois de ficar","beijou já quero namorar","quando de fato ficou intenso","no dia do seu aniversario","no ano novo"],
-    correta:3,
-    msgErr:"Todas estão certas mas só uma vai acontecer, acerte a resposta"
-  }
-];
-
-let index=0;
-const perguntaEl=document.getElementById("pergunta");
-const opcoesEl=document.getElementById("opcoes");
-const msgEl=document.getElementById("msg");
-const btnProximo=document.getElementById("btnProximo");
-
-function carregarPergunta(){
-    msgEl.textContent="";
-    btnProximo.style.display="none";
-    perguntaEl.textContent=quiz[index].pergunta;
-    opcoesEl.innerHTML="";
-    quiz[index].opcoes.forEach((op,i)=>{
-        const b=document.createElement("button");
-        b.textContent=op;
-        b.onclick=()=>verificarResposta(i);
-        opcoesEl.appendChild(b);
-    });
-}
-
-function verificarResposta(selecionado){
-    if(selecionado===quiz[index].correta){
-        msgEl.textContent="Resposta correta!";
-        btnProximo.style.display="inline-block";
-    }else{
-        msgEl.textContent=quiz[index].msgErr;
-        btnProximo.style.display="inline-block";
-    }
-}
-
-function nextTela(){
-    index++;
-    if(index>=quiz.length){
-        location.href="pedido.html";
-    }else{
-        carregarPergunta();
-    }
-}
-
-carregarPergunta();
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pedido de Namoro</title>
-<style>
-body { background:#0b0b0b; color:#fff; font-family:Georgia, serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; overflow:hidden; }
-h1 { font-size:2rem; color:#ff0033; text-align:center; margin-bottom:20px; }
-button { margin:10px; padding:10px 20px; font-size:1rem; cursor:pointer; border:2px solid #0ff; background:black; color:#0ff; border-radius:5px; }
-#coracoes { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
-img { max-width:300px; border-radius:10px; margin-bottom:20px; }
-</style>
-</head>
-<body>
-
-<h1>BYANCA BRYTINEY DA SILVA, VOCÊ ACEITA NAMORAR COMIGO??</h1>
-<img src="assets/foto2.jpg" alt="Foto">
-<div>
-<button id="sim">SIM</button>
-<button id="nao">NÃO</button>
-</div>
-
-<div id="coracoes"></div>
-
-<script>
-// Função corações caindo
-function criarCoracao(){
-    const h=document.createElement("div");
-    h.textContent="❤️";
-    h.style.position="fixed";
-    h.style.left=Math.random()*100+"vw";
-    h.style.top="-50px";
-    h.style.fontSize=(Math.random()*30+20)+"px";
-    h.style.opacity=0.8;
-    h.style.zIndex="0";
-    document.body.appendChild(h);
-    let y= -50;
-    const anim=setInterval(()=>{
-        y+=2;
-        h.style.top=y+"px";
-        if(y>window.innerHeight){
-            h.remove();
-            clearInterval(anim);
-        }
-    },16);
-}
-setInterval(criarCoracao,200);
-
-// Botões
-document.getElementById("sim").onclick = () => location.href="final.html";
-document.getElementById("nao").onclick = () => {
-    const h1=document.querySelector("h1");
-    h1.style.transform="translateX(-150vw)";
-    h1.style.transition="2s";
-};
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Final</title>
-<style>
-body { background:#0b0b0b; color:#ff0033; font-family:Georgia, serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; overflow:hidden; text-align:center;}
-h1 { font-size:2.5rem; margin-bottom:20px; color:#ff0; animation:fadeIn 2s ease-in-out;}
-img { max-width:400px; border-radius:10px; box-shadow:0 0 20px #ff0033aa; }
-@keyframes fadeIn {0%{opacity:0;transform:translateY(50px);}100%{opacity:1;transform:translateY(0);}}
-</style>
-</head>
-<body>
-<h1>QUERO PASSAR A VIDA COM VOCÊ ❤️</h1>
-<img src="assets/foto3.jpg" alt="Foto Final">
 </body>
 </html>
-
-
-
