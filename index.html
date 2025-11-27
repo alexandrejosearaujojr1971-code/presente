@@ -11,31 +11,151 @@ body {
   background: #0b0b0b;
   color: #e63946;
   font-family: "Georgia", serif;
-  overflow-y: auto; /* scroll habilitado */
+  overflow-y: auto; /* Permite scroll */
 }
-.heart-button { 
-  background: none; border: none; cursor: pointer;
-  font-size: 5rem; color: #ff0033;
-  animation: pulse 1.3s infinite; transition: 0.3s; 
+
+/* --- BOTÃO CORAÇÃO --- */
+.heart-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 5rem;
+  color: #ff0033;
+  animation: pulse 1.3s infinite;
+  transition: 0.3s;
 }
 .heart-button:hover { transform: scale(1.2); }
-@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-.heart-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-.click-text { color: #ff0033; font-size: 1.2rem; margin-top: 10px; }
-.envelope { width: 300px; height: 200px; background: #111; border: 2px solid #e63946; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 8px; overflow: hidden; opacity: 0; pointer-events: none; transition: 1s ease; }
-.envelope.open { height: 0px; opacity: 0; transition: 1s ease; }
-.envelope::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom right, #8b0000, #300000); clip-path: polygon(0 0, 100% 0, 50% 50%); }
-.card { opacity: 0; margin: 50px auto; max-width: 750px; padding: 35px; background: #111; border: 2px solid #e63946; border-radius: 14px; box-shadow: 0 0 40px #e6394666; animation: fadeIn 1.5s ease forwards; animation-delay: 1.2s; display: none; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-h1 { text-align: center; color: #ff0033; font-size: 2.4rem; }
-p { color: #ffffffcc; font-size: 1.2rem; line-height: 1.7rem; text-align: justify; }
-.gallery { margin-top: 20px; text-align: center; }
-.gallery img { width: 100%; max-width: 250px; border-radius: 12px; box-shadow: 0 0 20px #e63946aa; transition: opacity 1s ease-in-out; }
-.footer { text-align: center; margin-top: 20px; color: #ff0033; font-style: italic; }
-.floating-heart { position: fixed; bottom: -10px; font-size: 18px; color: #ff0033aa; animation: float 6s linear infinite; z-index: -1; }
-@keyframes float { 0% { transform: translateY(0) translateX(0); opacity: 1; } 100% { transform: translateY(-120vh) translateX(30px); opacity: 0; } }
-/* Botão PROXIMO */
-#proximoBtn { position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 1rem; background: black; color: #00f; border: 2px solid #00f; border-radius: 8px; cursor: pointer; display: none; }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Container do botão coração + texto */
+.heart-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.click-text {
+  color: #ff0033;
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* --- ANIMAÇÃO DA CARTA --- */
+.envelope {
+  width: 300px;
+  height: 200px;
+  background: #111;
+  border: 2px solid #e63946;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s ease;
+}
+.envelope.open {
+  height: 0px;
+  opacity: 0;
+  transition: 1s ease;
+}
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, #8b0000, #300000);
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+}
+
+.card {
+  opacity: 0;
+  margin: 50px auto;
+  max-width: 750px;
+  padding: 35px;
+  background: #111;
+  border: 2px solid #e63946;
+  border-radius: 14px;
+  box-shadow: 0 0 40px #e6394666;
+  animation: fadeIn 1.5s ease forwards;
+  animation-delay: 1.2s;
+  display: none;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  text-align: center;
+  color: #ff0033;
+  font-size: 2.4rem;
+}
+p {
+  color: #ffffffcc;
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+  text-align: justify;
+}
+
+/* GALERIA DE FOTOS */
+.gallery {
+  margin-top: 20px;
+  text-align: center;
+}
+.gallery img {
+  width: 80%;
+  max-width: 250px; /* menor para caber melhor */
+  border-radius: 12px;
+  box-shadow: 0 0 20px #e63946aa;
+  transition: opacity 1s ease-in-out;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #ff0033;
+  font-style: italic;
+}
+
+/* Corações flutuando */
+.floating-heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 18px;
+  color: #ff0033aa;
+  animation: float 6s linear infinite;
+  z-index: -1;
+}
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: 1; }
+  100% { transform: translateY(-120vh) translateX(30px); opacity: 0; }
+}
+
+/* BOTÃO PRÓXIMO */
+#proximoBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: black;
+  color: #00f;
+  border: 2px solid #00f;
+  border-radius: 8px;
+  cursor: pointer;
+  display: none;
+}
 #proximoBtn:hover { background: #00f; color: #000; }
 </style>
 </head>
@@ -50,7 +170,15 @@ p { color: #ffffffcc; font-size: 1.2rem; line-height: 1.7rem; text-align: justif
 
 <div class="card" id="card">
   <h1>Para Você ❤️</h1>
-  <p> ...seu texto aqui...</p>
+  <p>
+    A gente se conhece há tão pouco tempo, e mesmo assim, cada dia ao seu lado tem sido incrível.  
+    Cada momento que passa, eu gosto ainda mais de você.  
+    Sei que tenho meus defeitos, penso demais às vezes, mas a cada dia me sinto mais tranquilo e seguro com você.<br><br>
+    Sei que já falei aquelas frases meio clichês, tipo "vai passar a vida toda comigo"… mas é sério, kkk.  
+    Tudo que eu puder fazer para que isso aconteça, eu farei.<br><br>
+    Esse pequeno presente é só uma forma de carinho, um jeito de te mostrar o quanto você é especial para mim.  
+    Feliz aniversário, minha gostosa ❤️
+  </p>
   <div class="gallery">
     <img id="currentImage" src="assets/foto1.jpg" alt="Memória">
   </div>
@@ -59,11 +187,12 @@ p { color: #ffffffcc; font-size: 1.2rem; line-height: 1.7rem; text-align: justif
   </div>
 </div>
 
-<button id="proximoBtn" onclick="window.location.href='labirinto.html'">PRÓXIMO</button>
-
 <audio id="bgMusic" src="assets/music.mp3"></audio>
 
+<button id="proximoBtn" onclick="window.location.href='labirinto.html'">PRÓXIMO</button>
+
 <script>
+// Corações flutuando
 function floatingHeart() {
   const h = document.createElement("div");
   h.className = "floating-heart";
@@ -76,6 +205,7 @@ function floatingHeart() {
 }
 setInterval(floatingHeart, 500);
 
+// Galeria automática
 const images = [
   "assets/foto1.jpg","assets/foto2.jpg","assets/foto3.jpg"
 ];
@@ -92,7 +222,7 @@ function startGallery() {
   setTimeout(() => env.classList.add("open"), 700);
   setTimeout(() => {
     document.getElementById("card").style.display = "block";
-    document.getElementById("proximoBtn").style.display = "block"; // mostra PROXIMO
+    document.getElementById("proximoBtn").style.display = "block"; // mostra botão PRÓXIMO
   }, 1700);
 
   bgMusic.play();
@@ -110,5 +240,6 @@ function startGallery() {
 
 document.getElementById("heartBtn").onclick = startGallery;
 </script>
+
 </body>
 </html>
