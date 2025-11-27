@@ -5,33 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pedido ❤️</title>
 <style>
-body{ margin:0; padding:0; background:#111; display:flex; justify-content:center; align-items:center; flex-direction:column; color:#fff; font-family:Georgia, serif; }
-button{ margin:10px; padding:10px 20px; cursor:pointer; }
-#nextBtn{ display:none; background:#000; color:#f0f; border:2px solid #f0f; margin-top:20px; }
-.falling-heart{ position:fixed; font-size:24px; color:#f00; animation:fall 3s linear infinite; }
-@keyframes fall{ 0%{top:-50px;}100%{top:100vh;} }
+body {
+    margin:0; padding:0; background:#111;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    color:#fff; font-family:Georgia, serif;
+}
+h1 {
+    text-align:center;
+    max-width: 500px;
+}
+img {
+    width:300px; margin:20px 0; border-radius:10px;
+}
+button {
+    margin:10px; padding:10px 20px; cursor:pointer;
+}
+#nextBtn {
+    display:none; margin-top:20px; background:#000; color:#f0f; border:2px solid #f0f;
+    padding:10px 20px; cursor:pointer;
+}
+/* Corações caindo */
+.falling-heart {
+    position:fixed;
+    font-size:24px;
+    color:#f00;
+    animation:fall 3s linear infinite;
+}
+@keyframes fall{
+    0%{top:-50px;}
+    100%{top:100vh;}
+}
 </style>
 </head>
 <body>
-<h1>Sei que informal mas vou falar mesmo assim: <br> BYANCA BRYTINEY DA SILVA, você aceita namorar comigo??</h1>
-<img src="assets/foto2.jpg" width="300">
+
+<h1>Sei que informal mas vou falar mesmo assim:<br>
+BYANCA BRYTINEY DA SILVA, você aceita namorar comigo??</h1>
+
+<img src="assets/foto2.jpg" alt="Pedido">
+
 <div>
-<button onclick="no()">NÃO</button>
-<button onclick="yes()">SIM</button>
+    <button id="noBtn">NÃO</button>
+    <button id="yesBtn">SIM</button>
 </div>
+
 <button id="nextBtn" onclick="window.location.href='final.html'">PRÓXIMO</button>
 
 <script>
-function yes(){ nextBtn.style.display='block'; }
-function no(){ alert("Saindo do canto..."); }
+// Botão SIM libera o próximo
+document.getElementById("yesBtn").onclick = () => {
+    document.getElementById("nextBtn").style.display = "block";
+};
+
+// Botão NÃO se move para posição aleatória
+const noBtn = document.getElementById("noBtn");
+noBtn.onclick = () => {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+};
+
+// Corações caindo
 function createHeart(){
-    const h=document.createElement("div");
-    h.className="falling-heart"; h.innerHTML="❤️"; 
-    h.style.left=Math.random()*100+"vw";
+    const h = document.createElement("div");
+    h.className = "falling-heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random() * 100 + "vw";
     document.body.appendChild(h);
-    setTimeout(()=>h.remove(),3000);
+    setTimeout(()=>h.remove(), 3000);
 }
-setInterval(createHeart,500);
+setInterval(createHeart, 500);
 </script>
+
 </body>
 </html>
