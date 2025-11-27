@@ -1,45 +1,180 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz ❤️</title>
-<style>
-body{ margin:0; padding:0; background:#111; color:#fff; font-family:Georgia, serif; display:flex; justify-content:center; align-items:center; flex-direction:column; }
-button{ margin:10px; padding:10px 20px; cursor:pointer; }
-#nextBtn{ display:none; margin-top:20px; background:#000; color:#0ff; border:2px solid #0ff; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0b0b0b;
+            color: #e63946;
+            font-family: "Georgia", serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff0033;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            background: #111;
+            border: 2px solid #e63946;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 20px #e6394666;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option-btn {
+            background: none;
+            border: 2px solid #00f;
+            color: #00f;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover {
+            background: #00f;
+            color: #000;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 1rem;
+            min-height: 24px;
+            color: #ff0033;
+        }
+
+        #nextBtn {
+            display: none;
+            margin-top: 20px;
+            background: #000;
+            color: #00f;
+            border: 2px solid #00f;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+    </style>
 </head>
 <body>
-<h1 id="question"></h1>
-<div id="options"></div>
-<button id="nextBtn" onclick="window.location.href='pedido.html'">PRÓXIMO</button>
 
-<script>
-const quiz = [
-{q:"Qual a data que nos conhecemos?", o:["12 de outubro","13 de outubro","14 de outubro","15 de outubro"], a:1},
-{q:"Qual amendoim eu mais gosto?", o:["do verde","picante","tradicional","não gosto"], a:1},
-{q:"Quando você gostaria de ser pedida em namoro?", o:["1 semana depois de ficar","beijou já quero namorar","quando de fato ficou intenso","no dia do seu aniversario","no ano novo"], a:3}
-];
-let i=0;
-const questionEl=document.getElementById("question");
-const optionsEl=document.getElementById("options");
-const nextBtn=document.getElementById("nextBtn");
+    <div class="question-container">
+        <h1>Quiz ❤️</h1>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div id="message"></div>
+        <button id="nextBtn" onclick="window.location.href='pedido.html'">PRÓXIMO</button>
+    </div>
 
-function showQuestion(){
-    questionEl.textContent=quiz[i].q;
-    optionsEl.innerHTML="";
-    quiz[i].o.forEach((opt,index)=>{
-        const btn=document.createElement("button");
-        btn.textContent=opt;
-        btn.onclick=()=>{ 
-            if(index===quiz[i].a) nextBtn.style.display='block';
-            else alert(i===2?"Todas estão certas mas só uma vai acontecer, acerte a resposta":"Não acredito que errou isso, sua cagona");
-        };
-        optionsEl.appendChild(btn);
-    });
-}
-showQuestion();
-</script>
+    <script>
+        const quiz = [
+            {
+                question: "Qual a data que nos conhecemos?",
+                options: [
+                    "12 de outubro de 2025",
+                    "13 de outubro de 2025",
+                    "14 de outubro de 2025",
+                    "15 de outubro de 2025"
+                ],
+                answer: 1, // índice da resposta correta
+                errorMsg: "Não acredito que errou isso sua cagona, próxima!"
+            },
+            {
+                question: "Qual o amendoim que eu mais gosto?",
+                options: [
+                    "Do verde",
+                    "Picante",
+                    "Tradicional",
+                    "Não gosto de amendoim"
+                ],
+                answer: 1,
+                errorMsg: "Não acredito que errou isso sua cagona, próxima!"
+            },
+            {
+                question: "Quando você gostaria de ser pedida em namoro?",
+                options: [
+                    "1 semana depois de ficar",
+                    "Beijou já quero namorar",
+                    "Quando de fato ficou intenso",
+                    "No dia do seu aniversário?",
+                    "No ano novo"
+                ],
+                answer: 3, // D é a correta
+                errorMsg: "Todas estão certas mas só uma vai acontecer, acerte a resposta!"
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const messageEl = document.getElementById("message");
+        const nextBtn = document.getElementById("nextBtn");
+
+        function loadQuestion() {
+            const q = quiz[currentQuestion];
+            questionEl.textContent = q.question;
+            optionsEl.innerHTML = "";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.textContent = opt;
+                btn.classList.add("option-btn");
+                btn.onclick = () => checkAnswer(idx);
+                optionsEl.appendChild(btn);
+            });
+
+            messageEl.textContent = "";
+            nextBtn.style.display = "none";
+        }
+
+        function checkAnswer(selected) {
+            const q = quiz[currentQuestion];
+            if (selected === q.answer) {
+                messageEl.style.color = "#00f";
+                messageEl.textContent = "Resposta correta!";
+                nextBtn.style.display = "block";
+            } else {
+                messageEl.style.color = "#ff0033";
+                messageEl.textContent = q.errorMsg;
+                currentQuestion++; // vai para próxima pergunta
+                if(currentQuestion < quiz.length) {
+                    setTimeout(loadQuestion, 1500); // próxima pergunta após 1.5s
+                } else {
+                    // acabou as perguntas mas não acertou última
+                    nextBtn.style.display = "block";
+                }
+            }
+        }
+
+        // inicia quiz
+        loadQuestion();
+    </script>
 </body>
 </html>
