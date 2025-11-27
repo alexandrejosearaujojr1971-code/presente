@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Byanca  ❤️</title>
+    <title>Para Você ❤️</title>
 
     <style>
         body {
@@ -24,6 +24,7 @@
             color: #ff0033;
             animation: pulse 1.3s infinite;
             transition: 0.3s;
+            z-index: 9999; /* Correção: garante clique */
         }
 
         .heart-button:hover {
@@ -43,6 +44,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
+            z-index: 9999; /* Correção: acima de envelopes/carta */
         }
 
         .click-text {
@@ -50,6 +52,29 @@
             font-family: Georgia, serif;
             font-size: 1.2rem;
             margin-top: 10px;
+        }
+
+        /* --- ANIMAÇÃO DA CARTA --- */
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #111;
+            border: 2px solid #e63946;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none; /* Correção: não bloqueia clique */
+            transition: 1s ease;
+        }
+
+        .envelope.open {
+            height: 0px;
+            opacity: 0;
+            transition: 1s ease;
         }
 
         .card {
@@ -61,7 +86,18 @@
             border: 2px solid #e63946;
             border-radius: 14px;
             box-shadow: 0 0 40px #e6394666;
+            animation: fadeIn 1.5s ease forwards;
             display: none;
+            pointer-events: none; /* Correção: só ativa clique quando visível */
+        }
+
+        .card.show {
+            pointer-events: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -101,6 +137,7 @@
             border: 2px solid #00f;
             padding: 10px 20px;
             cursor: pointer;
+            z-index: 9999;
         }
     </style>
 </head>
@@ -112,6 +149,9 @@
         <button class="heart-button" id="heartBtn">❤️</button>
         <div class="click-text">Clique aqui</div>
     </div>
+
+    <!-- Envelope desaparecendo -->
+    <div class="envelope" id="envelope"></div>
 
     <!-- Carta -->
     <div class="card" id="card">
@@ -128,7 +168,6 @@
             Feliz aniversário, minha gostosa ❤️
         </p>
 
-        <!-- GALERIA DE FOTOS -->
         <div class="gallery">
             <img id="currentImage" src="assets/foto1.jpg" alt="Memória">
         </div>
@@ -140,7 +179,7 @@
     <!-- ÁUDIO -->
     <audio id="bgMusic" src="assets/music.mp3"></audio>
 
-    <!-- SCRIPTS -->
+    <!-- CORAÇÕES FLUTUANDO + SCRIPT -->
     <script>
         const heartBtn = document.getElementById("heartBtn");
         const card = document.getElementById("card");
@@ -148,17 +187,18 @@
         const currentImage = document.getElementById("currentImage");
         const bgMusic = document.getElementById("bgMusic");
 
-        // Galeria de fotos automática
         const images = [
             "assets/foto1.jpg","assets/foto2.jpg","assets/foto3.jpg",
             "assets/foto4.jpg","assets/foto5.jpg"
         ];
         let currentIndex = 0;
 
-        function startGallery() {
-            card.style.display = "block";      // Mostra a carta
-            heartBtn.style.display = "none";   // Oculta o coração
-            nextBtn.style.display = "block";   // Mostra o botão PRÓXIMO
+        // Clique no coração
+        heartBtn.onclick = () => {
+            card.style.display = "block";
+            card.classList.add("show"); // ativa clique da carta
+            heartBtn.style.display = "none";
+            nextBtn.style.display = "block";
             bgMusic.play();
 
             // Troca de fotos automática
@@ -171,9 +211,20 @@
                     currentImage.style.opacity = 1;
                 }, 500);
             }, 3000);
-        }
+        };
 
-        heartBtn.onclick = startGallery;
+        // Corações flutuando
+        function floatingHeart() {
+            const h = document.createElement("div");
+            h.className = "floating-heart";
+            h.innerHTML = "❤️";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.fontSize = (Math.random() * 20 + 10) + "px";
+            h.style.animationDuration = (Math.random() * 4 + 3) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 7000);
+        }
+        setInterval(floatingHeart, 500);
     </script>
 </body>
 </html>
