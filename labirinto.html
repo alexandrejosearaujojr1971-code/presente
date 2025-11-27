@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labirinto Fácil</title>
+<style>
+body{display:flex;justify-content:center;align-items:center;height:100vh;background:#222;margin:0;}
+#labirinto{position:relative;width:400px;height:400px;background:#ccc;border:2px solid #000;}
+.parede{position:absolute;background:#000;}
+#parede1{top:50px;left:0;width:300px;height:20px;}
+#parede2{top:150px;left:100px;width:20px;height:250px;}
+#bola{position:absolute;width:20px;height:20px;border-radius:50%;background:red;top:10px;left:10px;}
+#meta{position:absolute;width:30px;height:30px;background:yellow;bottom:10px;right:10px;}
+#proximo{display:none;position:fixed;bottom:20px;right:20px;background:black;color:#00f;border:2px solid blue;padding:12px 25px;font-size:1.2rem;cursor:pointer;}
+</style>
+</head>
+<body>
+<div id="labirinto">
+    <div class="parede" id="parede1"></div>
+    <div class="parede" id="parede2"></div>
+    <div id="bola"></div>
+    <div id="meta"></div>
+</div>
+<button id="proximo" onclick="location.href='quiz.html'">PRÓXIMO</button>
+
+<script>
+const bola=document.getElementById('bola');
+const lab=document.getElementById('labirinto');
+const paredes=document.querySelectorAll('.parede');
+const meta=document.getElementById('meta');
+const btnProximo=document.getElementById('proximo');
+let pos={x:10,y:10},vel=5;
+
+function colidiu(x,y){
+    const b={x1:x,y1:y,x2:x+20,y2:y+20};
+    for(let p of paredes){
+        const r=p.getBoundingClientRect();
+        const l=lab.getBoundingClientRect();
+        const px1=r.left-l.left, py1=r.top-l.top, px2=px1+r.width, py2=py1+r.height;
+        if(b.x2>px1 && b.x1<px2 && b.y2>py1 && b.y1<py2) return true;
+    }
+    if(b.x1<0||b.y1<0||b.x2>lab.clientWidth||b.y2>lab.clientHeight) return true;
+    return false;
+}
+
+function moveBola(dx,dy){
+    let nx=pos.x+dx, ny=pos.y+dy;
+    if(!colidiu(nx,ny)){
+        pos.x=nx; pos.y=ny;
+        bola.style.left=pos.x+'px';
+        bola.style.top=pos.y+'px';
+        const bx=pos.x+10, by=pos.y+10, mx=meta.offsetLeft+15, my=meta.offsetTop+15;
+        if(Math.abs(bx-mx)<15 && Math.abs(by-my)<15) btnProximo.style.display='block';
+    }
+}
+
+document.addEventListener('keydown',e=>{
+    switch(e.key){
+        case 'ArrowUp': moveBola(0,-vel); break;
+        case 'ArrowDown': moveBola(0,vel); break;
+        case 'ArrowLeft': moveBola(-vel,0); break;
+        case 'ArrowRight': moveBola(vel,0); break;
+    }
+});
+
+let startX,startY;
+lab.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; startY=e.touches[0].clientY; });
+lab.addEventListener('touchmove',e=>{
+    const dx=e.touches[0].clientX-startX, dy=e.touches[0].clientY-startY;
+    if(Math.abs(dx)>Math.abs(dy)) moveBola(dx>0?vel:-vel,0);
+    else moveBola(0,dy>0?vel:-vel);
+    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
+    e.preventDefault();
+});
+</script>
+</body>
+</html>
