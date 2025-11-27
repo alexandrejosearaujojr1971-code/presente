@@ -3,57 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pedido de Namoro</title>
+<title>Pedido ❤️</title>
 <style>
-body { background:#0b0b0b; color:#fff; font-family:Georgia, serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; margin:0; overflow:hidden; }
-h1 { font-size:2rem; color:#ff0033; text-align:center; margin-bottom:20px; }
-button { margin:10px; padding:10px 20px; font-size:1rem; cursor:pointer; border:2px solid #0ff; background:black; color:#0ff; border-radius:5px; }
-#coracoes { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
-img { max-width:300px; border-radius:10px; margin-bottom:20px; }
+body{ margin:0; padding:0; background:#111; display:flex; justify-content:center; align-items:center; flex-direction:column; color:#fff; font-family:Georgia, serif; }
+button{ margin:10px; padding:10px 20px; cursor:pointer; }
+#nextBtn{ display:none; background:#000; color:#f0f; border:2px solid #f0f; margin-top:20px; }
+.falling-heart{ position:fixed; font-size:24px; color:#f00; animation:fall 3s linear infinite; }
+@keyframes fall{ 0%{top:-50px;}100%{top:100vh;} }
 </style>
 </head>
 <body>
-
-<h1>BYANCA BRYTINEY DA SILVA, VOCÊ ACEITA NAMORAR COMIGO??</h1>
-<img src="assets/foto2.jpg" alt="Foto">
+<h1>Sei que informal mas vou falar mesmo assim: <br> BYANCA BRYTINEY DA SILVA, você aceita namorar comigo??</h1>
+<img src="assets/foto2.jpg" width="300">
 <div>
-<button id="sim">SIM</button>
-<button id="nao">NÃO</button>
+<button onclick="no()">NÃO</button>
+<button onclick="yes()">SIM</button>
 </div>
-
-<div id="coracoes"></div>
+<button id="nextBtn" onclick="window.location.href='final.html'">PRÓXIMO</button>
 
 <script>
-// Função corações caindo
-function criarCoracao(){
+function yes(){ nextBtn.style.display='block'; }
+function no(){ alert("Saindo do canto..."); }
+function createHeart(){
     const h=document.createElement("div");
-    h.textContent="❤️";
-    h.style.position="fixed";
+    h.className="falling-heart"; h.innerHTML="❤️"; 
     h.style.left=Math.random()*100+"vw";
-    h.style.top="-50px";
-    h.style.fontSize=(Math.random()*30+20)+"px";
-    h.style.opacity=0.8;
-    h.style.zIndex="0";
     document.body.appendChild(h);
-    let y= -50;
-    const anim=setInterval(()=>{
-        y+=2;
-        h.style.top=y+"px";
-        if(y>window.innerHeight){
-            h.remove();
-            clearInterval(anim);
-        }
-    },16);
+    setTimeout(()=>h.remove(),3000);
 }
-setInterval(criarCoracao,200);
-
-// Botões
-document.getElementById("sim").onclick = () => location.href="final.html";
-document.getElementById("nao").onclick = () => {
-    const h1=document.querySelector("h1");
-    h1.style.transform="translateX(-150vw)";
-    h1.style.transition="2s";
-};
+setInterval(createHeart,500);
 </script>
 </body>
 </html>
