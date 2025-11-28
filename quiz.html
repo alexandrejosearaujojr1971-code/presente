@@ -1,6 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz ❤️</title>
+
+<style>
+    body {
+        background: #0b0b0b;
+        color: #ff0033;
+        font-family: Georgia, serif;
+        text-align: center;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .card {
+        background: #111;
+        border: 2px solid #e63946;
+        border-radius: 12px;
+        padding: 25px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 0 20px #e6394666;
+    }
+
+    .question {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        color: #ff0033;
+    }
+
+    .option {
+        display: block;
+        background: #222;
+        border: 2px solid #e63946;
+        color: #fff;
+        padding: 12px;
+        margin: 10px auto;
+        max-width: 400px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 1.1rem;
+        position: relative;
+    }
+
+    .option:hover {
+        background: #e63946;
+    }
+
+    textarea {
+        width: 90%;
+        height: 90px;
+        margin-top: 10px;
+        border: 2px solid #e63946;
+        border-radius: 10px;
+        background: #222;
+        color: #fff;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    #message {
+        margin-top: 20px;
+        min-height: 30px;
+        font-size: 1.2rem;
+    }
+
+    #nextBtn {
+        display: none;
+        margin-top: 25px;
+        background: black;
+        border: 2px solid #008cff;
+        color: #008cff;
+        padding: 12px 22px;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #nextBtn:hover {
+        background: #008cff;
+        color: black;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div id="quizBox"></div>
+
+    <div id="message"></div>
+
+    <button id="nextBtn">PRÓXIMO →</button>
+</div>
+
+<script>
+let questionIndex = 0;
+
+// FUNÇÃO DO BOTÃO "NÃO" FUGIR
+function moveOption(element) {
+    element.style.position = "relative";
+    element.style.left = Math.random() * 120 - 60 + "px";
+    element.style.top = Math.random() * 60 - 30 + "px";
+}
+
 const questions = [
 
-    // 1
+    /* -------------------- SUAS 3 PERGUNTAS ORIGINAIS -------------------- */
     {
         question: "Qual a data que nos conhecemos?",
         options: [
@@ -13,7 +123,6 @@ const questions = [
         wrongMsg: "Não acredito que errou isso sua cagona 😂"
     },
 
-    // 2
     {
         question: "Que amendoim eu mais gosto?",
         options: [
@@ -26,7 +135,8 @@ const questions = [
         wrongMsg: "Minha filha… acertou nada até agora? 😭"
     },
 
-    // 3 — AJUSTADA
+    /* -------------------- SUAS NOVAS PERGUNTAS -------------------- */
+
     {
         question: "Quem é mais ciumento?",
         options: [
@@ -39,7 +149,6 @@ const questions = [
         wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😘"
     },
 
-    // 4 — AJUSTADA
     {
         question: "Se eu sumir por 2 horas você:",
         options: [
@@ -49,10 +158,9 @@ const questions = [
             "D) Me ama mesmo assim 😭"
         ],
         correct: 0,
-        wrongMsg: "Com toda certeza me mata mas antes some… quando eu aparecer kkkkk"
+        wrongMsg: "Com toda certeza me mata, mas antes some quando eu aparecer kkkkk"
     },
 
-    // 5 — AJUSTADA
     {
         question: "Qual dessas coisas você acha mais importante?",
         options: [
@@ -65,7 +173,6 @@ const questions = [
         wrongMsg: "Obviamente todas são importantes ❤️"
     },
 
-    // 6 — NÃO FOGE
     {
         question: "Você acha que eu seria um bom namorado? 😏",
         options: [
@@ -77,7 +184,6 @@ const questions = [
         wrongMsg: "Para de tentar fugir, safada 😂"
     },
 
-    // 7 — AJUSTADA
     {
         question: "Eu sou mais:",
         options: [
@@ -90,7 +196,6 @@ const questions = [
         wrongMsg: "Eu sei que sou muito fofo, mas deixa como gostoso kkkkk 😏"
     },
 
-    // 8 — AJUSTADA
     {
         question: "O que você acha que eu faço mais?",
         options: [
@@ -103,19 +208,18 @@ const questions = [
         wrongMsg: "Obviamente muita saudade e muita maldade kkkk 😈"
     },
 
-    // 9 — ABERTA
     {
         question: "O que você mais gosta nas minhas atitudes?",
         open: true
     },
 
-    // 10 — ABERTA
     {
         question: "O que te faz confiar em mim?",
         open: true
     },
 
-    // 11 FINAL — pedido de namoro (não alterada)
+    /* -------------------- ÚLTIMA PERGUNTA (final original) -------------------- */
+
     {
         question: "Quando você gostaria de ser pedida em namoro?",
         options: [
@@ -129,3 +233,72 @@ const questions = [
         wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️"
     }
 ];
+
+const quizBox = document.getElementById("quizBox");
+const msg = document.getElementById("message");
+const nextBtn = document.getElementById("nextBtn");
+
+function loadQuestion() {
+    msg.textContent = "";
+    nextBtn.style.display = "none";
+
+    let q = questions[questionIndex];
+
+    // PERGUNTA ABERTA
+    if (q.open) {
+        quizBox.innerHTML = `
+            <div class="question">${q.question}</div>
+            <textarea placeholder="Escreve aqui meu amor ❤️"></textarea>
+        `;
+        nextBtn.style.display = "block";
+        return;
+    }
+
+    // PERGUNTA NORMAL
+    quizBox.innerHTML = `
+        <div class="question">${q.question}</div>
+        ${q.options
+            .map((opt, i) => 
+                `<div class="option" id="opt${i}" onclick="selectOption(${i})">${opt}</div>`
+            )
+            .join("")}
+    `;
+}
+
+function selectOption(i) {
+    let q = questions[questionIndex];
+
+    // FAZ O "NÃO" FUGIR
+    if (q.escapeIndex === i) {
+        moveOption(document.getElementById("opt" + i));
+        return;
+    }
+
+    // ACERTOU
+    if (i === q.correct) {
+        msg.style.color = "#00ff99";
+        msg.textContent = "Boa, minha gostosa 😍";
+        nextBtn.style.display = "block";
+    } 
+    // ERROU
+    else {
+        msg.style.color = "#ff9999";
+        msg.textContent = q.wrongMsg ?? "Errou meu amor 😭";
+    }
+}
+
+nextBtn.onclick = () => {
+    questionIndex++;
+
+    if (questionIndex >= questions.length) {
+        window.location.href = "pedido.html";
+    } else {
+        loadQuestion();
+    }
+};
+
+loadQuestion();
+</script>
+
+</body>
+</html>
