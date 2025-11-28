@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz ❤️</title>
-
 <style>
     body {
         background: #0b0b0b;
@@ -13,6 +12,7 @@
         text-align: center;
         padding: 20px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .card {
@@ -23,6 +23,7 @@
         max-width: 600px;
         margin: auto;
         box-shadow: 0 0 20px #e6394666;
+        position: relative;
     }
 
     .question {
@@ -77,16 +78,18 @@
     input[type="text"] {
         width: 90%;
         padding: 10px;
+        margin: 10px auto;
         border-radius: 8px;
         border: 2px solid #e63946;
-        margin-top: 10px;
         font-size: 1rem;
+        display: block;
+        background: #222;
+        color: #fff;
     }
 </style>
 </head>
 
 <body>
-
 <div class="card">
     <div id="quizBox"></div>
     <div id="message"></div>
@@ -101,13 +104,13 @@ const questions = [
         question: "Quem é mais ciumento?",
         options: ["A) Você", "B) Eu (Byanca)", "C) Os dois", "D) Nem vou responder"],
         correct: 1,
-        wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😏"
+        wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😘"
     },
     {
         question: "Se eu sumir por 2 horas você:",
         options: ["A) Me mata", "B) Me bloqueia", "C) Vai me procurar", "D) Me ama mesmo assim 😭"],
         correct: 0,
-        wrongMsg: "Com toda certeza me mata mas antes some quando eu aparecer kkkkk 😅"
+        wrongMsg: "Com toda certeza me mata mas antes some quando eu aparecer kkkkk"
     },
     {
         question: "Qual dessas coisas você acha mais importante?",
@@ -117,39 +120,36 @@ const questions = [
     },
     {
         question: "Você acha que eu seria um bom namorado? 😏",
-        options: ["A) SIM", "B) NAO"],
+        options: ["A) SIM", "B) NÃO"],
         correct: 0,
-        wrongMsg: "Ops... tenta de novo 😏",
-        moveNo: true // flag para mover a opção NÃO
+        wrongMsg: "Ops, tente de novo 😏",
+        moveNoButton: true
     },
     {
         question: "Eu sou mais:",
         options: ["A) Fofo", "B) Chato", "C) Gostoso", "D) Tudo ao mesmo tempo"],
         correct: 2,
-        wrongMsg: "Eu sei que sou muito fofo mas deixa como gostoso kkk 😘"
+        wrongMsg: "Eu sei que sou muito fofo mas deixa como gostoso kkkk"
     },
     {
-        question: "Que você acha que eu faço mais?",
+        question: "O que você acha que eu faço mais?",
         options: ["A) Fico com saudade", "B) Penso besteira", "C) Penso em você", "D) Todas as anteriores"],
         correct: 3,
-        wrongMsg: "Obviamente muita saudade e muita maldade kkk 😜"
+        wrongMsg: "Obviamente muita saudade e muita maldade kkk"
     },
     {
         question: "O que você mais gosta nas minhas atitudes?",
-        options: [],
-        openInput: true
+        openText: true
     },
     {
         question: "O que te faz confiar em mim?",
-        options: [],
-        openInput: true
+        openText: true
     },
     {
         question: "Quando você gostaria de ser pedida em namoro?",
         options: ["A) 1 semana depois de ficar", "B) Beijou já quero namorar", "C) Quando de fato ficou intenso", "D) No dia do seu aniversário", "E) No ano novo"],
         correct: 3,
-        wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️",
-        final: true
+        wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️"
     }
 ];
 
@@ -162,71 +162,66 @@ function loadQuestion() {
     msg.style.color = "#ff9999";
     nextBtn.style.display = "none";
 
-    let q = questions[questionIndex];
+    const q = questions[questionIndex];
 
-    if(q.openInput) {
-        quizBox.innerHTML = `
-            <div class="question">${q.question}</div>
-            <input type="text" id="textInput" placeholder="Escreva aqui..."/>
-        `;
-        nextBtn.style.display = "block"; // permite seguir
-        nextBtn.onclick = () => {
-            questionIndex++;
-            if(questionIndex >= questions.length) {
-                window.location.href = "pedido.html";
-            } else {
-                loadQuestion();
-            }
-        };
+    if(q.openText){
+        quizBox.innerHTML = `<div class="question">${q.question}</div>
+            <input type="text" id="openInput" placeholder="Digite sua resposta">`;
+        nextBtn.style.display = "block";
     } else {
-        quizBox.innerHTML = `
-            <div class="question">${q.question}</div>
-            ${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})" id="opt${i}">${opt}</div>`).join('')}
-        `;
-        if(q.moveNo) setupMoveNo();
+        quizBox.innerHTML = `<div class="question">${q.question}</div>
+            ${q.options.map((opt,i)=>`<div class="option" onclick="selectOption(${i})">${opt}</div>`).join('')}`;
     }
 }
 
-function selectOption(i) {
-    let q = questions[questionIndex];
+function selectOption(i){
+    const q = questions[questionIndex];
 
-    if(i === q.correct) {
+    if(q.moveNoButton && i===1){
+        moveNo();
+        msg.textContent = "";
+        return;
+    }
+
+    if(q.correct !== undefined && i === q.correct){
         msg.style.color = "#00ff99";
         msg.textContent = "Boa, minha gostosa 😍";
         nextBtn.style.display = "block";
-        nextBtn.onclick = () => {
-            questionIndex++;
-            if(questionIndex >= questions.length) {
-                window.location.href = "pedido.html";
-            } else {
-                loadQuestion();
-            }
-        };
-    } else {
+    } else if(q.correct !== undefined){
         msg.style.color = "#ff9999";
         msg.textContent = q.wrongMsg;
-
-        // Se for a opção NÃO do namoro, move ela aleatoriamente
-        if(q.moveNo) moveNoOption(i);
     }
 }
 
-function setupMoveNo() {
-    const noOption = document.getElementById("opt1"); // B é NÃO
-    noOption.style.position = "relative";
+function moveNo(){
+    const optionDivs = document.querySelectorAll(".option");
+    const noBtn = optionDivs[1]; // "NÃO"
+    const cardRect = document.querySelector(".card").getBoundingClientRect();
+
+    const maxTop = cardRect.height - noBtn.offsetHeight - 20;
+    const maxLeft = cardRect.width - noBtn.offsetWidth - 20;
+
+    const randTop = Math.random() * maxTop;
+    const randLeft = Math.random() * maxLeft;
+
+    noBtn.style.position = "absolute";
+    noBtn.style.top = randTop + "px";
+    noBtn.style.left = randLeft + "px";
 }
 
-function moveNoOption(i) {
-    const noOption = document.getElementById(`opt${i}`);
-    const maxX = 200; // limite horizontal
-    const maxY = 150; // limite vertical
-    const randX = Math.floor(Math.random()*maxX) - maxX/2;
-    const randY = Math.floor(Math.random()*maxY) - maxY/2;
-    noOption.style.transform = `translate(${randX}px, ${randY}px)`;
-}
+nextBtn.onclick = ()=>{
+    if(questions[questionIndex].openText){
+        // apenas para perguntas abertas, não precisa validar
+    }
+    questionIndex++;
+    if(questionIndex >= questions.length){
+        window.location.href = "pedido.html";
+    } else {
+        loadQuestion();
+    }
+};
 
 loadQuestion();
 </script>
-
 </body>
 </html>
