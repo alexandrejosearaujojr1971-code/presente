@@ -50,18 +50,6 @@
         background: #e63946;
     }
 
-    textarea {
-        width: 90%;
-        height: 90px;
-        margin-top: 10px;
-        border: 2px solid #e63946;
-        border-radius: 10px;
-        background: #222;
-        color: #fff;
-        padding: 10px;
-        font-size: 1rem;
-    }
-
     #message {
         margin-top: 20px;
         min-height: 30px;
@@ -85,6 +73,15 @@
         background: #008cff;
         color: black;
     }
+
+    input[type="text"] {
+        width: 90%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #e63946;
+        margin-top: 10px;
+        font-size: 1rem;
+    }
 </style>
 </head>
 
@@ -92,145 +89,67 @@
 
 <div class="card">
     <div id="quizBox"></div>
-
     <div id="message"></div>
-
     <button id="nextBtn">PRÓXIMO →</button>
 </div>
 
 <script>
 let questionIndex = 0;
 
-// FUNÇÃO DO BOTÃO "NÃO" FUGIR
-function moveOption(element) {
-    element.style.position = "relative";
-    element.style.left = Math.random() * 120 - 60 + "px";
-    element.style.top = Math.random() * 60 - 30 + "px";
-}
-
 const questions = [
-
-    /* -------------------- SUAS 3 PERGUNTAS ORIGINAIS -------------------- */
-    {
-        question: "Qual a data que nos conhecemos?",
-        options: [
-            "A) 12 de outubro de 2025",
-            "B) 13 de outubro de 2025",
-            "C) 14 de outubro de 2025",
-            "D) 15 de outubro de 2025"
-        ],
-        correct: 1,
-        wrongMsg: "Não acredito que errou isso sua cagona 😂"
-    },
-
-    {
-        question: "Que amendoim eu mais gosto?",
-        options: [
-            "A) Do verde",
-            "B) Apimentado",
-            "C) Tradicional",
-            "D) Não gosto de amendoim"
-        ],
-        correct: 1,
-        wrongMsg: "Minha filha… acertou nada até agora? 😭"
-    },
-
-    /* -------------------- SUAS NOVAS PERGUNTAS -------------------- */
-
     {
         question: "Quem é mais ciumento?",
-        options: [
-            "A) Você",
-            "B) Eu (Byanca)",
-            "C) Os dois",
-            "D) Nem vou responder"
-        ],
+        options: ["A) Você", "B) Eu (Byanca)", "C) Os dois", "D) Nem vou responder"],
         correct: 1,
-        wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😘"
+        wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😏"
     },
-
     {
         question: "Se eu sumir por 2 horas você:",
-        options: [
-            "A) Me mata",
-            "B) Me bloqueia",
-            "C) Vai me procurar",
-            "D) Me ama mesmo assim 😭"
-        ],
+        options: ["A) Me mata", "B) Me bloqueia", "C) Vai me procurar", "D) Me ama mesmo assim 😭"],
         correct: 0,
-        wrongMsg: "Com toda certeza me mata, mas antes some quando eu aparecer kkkkk"
+        wrongMsg: "Com toda certeza me mata mas antes some quando eu aparecer kkkkk 😅"
     },
-
     {
         question: "Qual dessas coisas você acha mais importante?",
-        options: [
-            "A) Fidelidade",
-            "B) Carinho",
-            "C) Presença",
-            "D) Comunicação"
-        ],
+        options: ["A) Fidelidade", "B) Carinho", "C) Presença", "D) Comunicação"],
         correct: 0,
         wrongMsg: "Obviamente todas são importantes ❤️"
     },
-
     {
         question: "Você acha que eu seria um bom namorado? 😏",
-        options: [
-            "A) SIM",
-            "B) NÃO"
-        ],
+        options: ["A) SIM", "B) NAO"],
         correct: 0,
-        escapeIndex: 1,
-        wrongMsg: "Para de tentar fugir, safada 😂"
+        wrongMsg: "Ops... tenta de novo 😏",
+        moveNo: true // flag para mover a opção NÃO
     },
-
     {
         question: "Eu sou mais:",
-        options: [
-            "A) Fofo",
-            "B) Chato",
-            "C) Gostoso",
-            "D) Tudo ao mesmo tempo"
-        ],
+        options: ["A) Fofo", "B) Chato", "C) Gostoso", "D) Tudo ao mesmo tempo"],
         correct: 2,
-        wrongMsg: "Eu sei que sou muito fofo, mas deixa como gostoso kkkkk 😏"
+        wrongMsg: "Eu sei que sou muito fofo mas deixa como gostoso kkk 😘"
     },
-
     {
-        question: "O que você acha que eu faço mais?",
-        options: [
-            "A) Fico com saudade",
-            "B) Penso besteira",
-            "C) Penso em você",
-            "D) Todas as anteriores"
-        ],
+        question: "Que você acha que eu faço mais?",
+        options: ["A) Fico com saudade", "B) Penso besteira", "C) Penso em você", "D) Todas as anteriores"],
         correct: 3,
-        wrongMsg: "Obviamente muita saudade e muita maldade kkkk 😈"
+        wrongMsg: "Obviamente muita saudade e muita maldade kkk 😜"
     },
-
     {
         question: "O que você mais gosta nas minhas atitudes?",
-        open: true
+        options: [],
+        openInput: true
     },
-
     {
         question: "O que te faz confiar em mim?",
-        open: true
+        options: [],
+        openInput: true
     },
-
-    /* -------------------- ÚLTIMA PERGUNTA (final original) -------------------- */
-
     {
         question: "Quando você gostaria de ser pedida em namoro?",
-        options: [
-            "A) 1 semana depois de ficar",
-            "B) Beijou já quero namorar",
-            "C) Quando de fato ficou intenso",
-            "D) No dia do seu aniversário",
-            "E) No ano novo"
-        ],
+        options: ["A) 1 semana depois de ficar", "B) Beijou já quero namorar", "C) Quando de fato ficou intenso", "D) No dia do seu aniversário", "E) No ano novo"],
         correct: 3,
-        wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️"
+        wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️",
+        final: true
     }
 ];
 
@@ -240,62 +159,71 @@ const nextBtn = document.getElementById("nextBtn");
 
 function loadQuestion() {
     msg.textContent = "";
+    msg.style.color = "#ff9999";
     nextBtn.style.display = "none";
 
     let q = questions[questionIndex];
 
-    // PERGUNTA ABERTA
-    if (q.open) {
+    if(q.openInput) {
         quizBox.innerHTML = `
             <div class="question">${q.question}</div>
-            <textarea placeholder="Escreve aqui meu amor ❤️"></textarea>
+            <input type="text" id="textInput" placeholder="Escreva aqui..."/>
         `;
-        nextBtn.style.display = "block";
-        return;
+        nextBtn.style.display = "block"; // permite seguir
+        nextBtn.onclick = () => {
+            questionIndex++;
+            if(questionIndex >= questions.length) {
+                window.location.href = "pedido.html";
+            } else {
+                loadQuestion();
+            }
+        };
+    } else {
+        quizBox.innerHTML = `
+            <div class="question">${q.question}</div>
+            ${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})" id="opt${i}">${opt}</div>`).join('')}
+        `;
+        if(q.moveNo) setupMoveNo();
     }
-
-    // PERGUNTA NORMAL
-    quizBox.innerHTML = `
-        <div class="question">${q.question}</div>
-        ${q.options
-            .map((opt, i) => 
-                `<div class="option" id="opt${i}" onclick="selectOption(${i})">${opt}</div>`
-            )
-            .join("")}
-    `;
 }
 
 function selectOption(i) {
     let q = questions[questionIndex];
 
-    // FAZ O "NÃO" FUGIR
-    if (q.escapeIndex === i) {
-        moveOption(document.getElementById("opt" + i));
-        return;
-    }
-
-    // ACERTOU
-    if (i === q.correct) {
+    if(i === q.correct) {
         msg.style.color = "#00ff99";
         msg.textContent = "Boa, minha gostosa 😍";
         nextBtn.style.display = "block";
-    } 
-    // ERROU
-    else {
+        nextBtn.onclick = () => {
+            questionIndex++;
+            if(questionIndex >= questions.length) {
+                window.location.href = "pedido.html";
+            } else {
+                loadQuestion();
+            }
+        };
+    } else {
         msg.style.color = "#ff9999";
-        msg.textContent = q.wrongMsg ?? "Errou meu amor 😭";
+        msg.textContent = q.wrongMsg;
+
+        // Se for a opção NÃO do namoro, move ela aleatoriamente
+        if(q.moveNo) moveNoOption(i);
     }
 }
 
-nextBtn.onclick = () => {
-    questionIndex++;
+function setupMoveNo() {
+    const noOption = document.getElementById("opt1"); // B é NÃO
+    noOption.style.position = "relative";
+}
 
-    if (questionIndex >= questions.length) {
-        window.location.href = "pedido.html";
-    } else {
-        loadQuestion();
-    }
-};
+function moveNoOption(i) {
+    const noOption = document.getElementById(`opt${i}`);
+    const maxX = 200; // limite horizontal
+    const maxY = 150; // limite vertical
+    const randX = Math.floor(Math.random()*maxX) - maxX/2;
+    const randY = Math.floor(Math.random()*maxY) - maxY/2;
+    noOption.style.transform = `translate(${randX}px, ${randY}px)`;
+}
 
 loadQuestion();
 </script>
