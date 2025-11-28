@@ -12,6 +12,7 @@
         font-family: Georgia, serif;
         text-align: center;
         padding: 20px;
+        overflow-y: auto;
     }
 
     .card {
@@ -25,8 +26,9 @@
     }
 
     .question {
-        font-size: 1.4rem;
-        margin-bottom: 20px;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        color: #ff0033;
     }
 
     .option {
@@ -37,9 +39,10 @@
         padding: 12px;
         margin: 10px auto;
         max-width: 400px;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
         transition: 0.3s;
+        font-size: 1.1rem;
     }
 
     .option:hover {
@@ -47,10 +50,9 @@
     }
 
     #message {
-        margin-top: 15px;
+        margin-top: 20px;
+        min-height: 30px;
         font-size: 1.2rem;
-        color: #ff9999;
-        min-height: 25px;
     }
 
     #nextBtn {
@@ -76,11 +78,10 @@
 <body>
 
 <div class="card">
-    <div id="quizBox">
-        <!-- PERGUNTA E OPÇÕES ENTRAM AQUI VIA JS -->
-    </div>
+    <div id="quizBox"></div>
 
     <div id="message"></div>
+
     <button id="nextBtn">PRÓXIMO →</button>
 </div>
 
@@ -109,7 +110,7 @@
                 "D) Não gosto de amendoim"
             ],
             correct: 1,
-            wrongMsg: "Minha filha... acertou nada até agora? 😭"
+            wrongMsg: "Minha filha… acertou nada até agora? 😭"
         },
 
         {
@@ -132,14 +133,16 @@
 
     function loadQuestion() {
         msg.textContent = "";
+        msg.style.color = "#ff9999";
         nextBtn.style.display = "none";
+
         let q = questions[questionIndex];
 
         quizBox.innerHTML = `
             <div class="question">${q.question}</div>
-            ${q.options.map((opt, i) =>
-                `<div class="option" onclick="selectOption(${i})">${opt}</div>`
-            ).join("")}
+            ${q.options
+                .map((opt, i) => `<div class="option" onclick="selectOption(${i})">${opt}</div>`)
+                .join("")}
         `;
     }
 
@@ -159,7 +162,6 @@
     nextBtn.onclick = () => {
         questionIndex++;
 
-        // Se acabou as perguntas → vai para pedido.html
         if (questionIndex >= questions.length) {
             window.location.href = "pedido.html";
         } else {
