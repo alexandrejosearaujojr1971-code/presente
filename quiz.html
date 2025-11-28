@@ -1,176 +1,131 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz ❤️</title>
+const questions = [
 
-<style>
-    body {
-        background: #0b0b0b;
-        color: #ff0033;
-        font-family: Georgia, serif;
-        text-align: center;
-        padding: 20px;
-        overflow-y: auto;
+    // 1
+    {
+        question: "Qual a data que nos conhecemos?",
+        options: [
+            "A) 12 de outubro de 2025",
+            "B) 13 de outubro de 2025",
+            "C) 14 de outubro de 2025",
+            "D) 15 de outubro de 2025"
+        ],
+        correct: 1,
+        wrongMsg: "Não acredito que errou isso sua cagona 😂"
+    },
+
+    // 2
+    {
+        question: "Que amendoim eu mais gosto?",
+        options: [
+            "A) Do verde",
+            "B) Apimentado",
+            "C) Tradicional",
+            "D) Não gosto de amendoim"
+        ],
+        correct: 1,
+        wrongMsg: "Minha filha… acertou nada até agora? 😭"
+    },
+
+    // 3 — AJUSTADA
+    {
+        question: "Quem é mais ciumento?",
+        options: [
+            "A) Você",
+            "B) Eu (Byanca)",
+            "C) Os dois",
+            "D) Nem vou responder"
+        ],
+        correct: 1,
+        wrongMsg: "Você sabe que não é, minha surtadinha gostosa 😘"
+    },
+
+    // 4 — AJUSTADA
+    {
+        question: "Se eu sumir por 2 horas você:",
+        options: [
+            "A) Me mata",
+            "B) Me bloqueia",
+            "C) Vai me procurar",
+            "D) Me ama mesmo assim 😭"
+        ],
+        correct: 0,
+        wrongMsg: "Com toda certeza me mata mas antes some… quando eu aparecer kkkkk"
+    },
+
+    // 5 — AJUSTADA
+    {
+        question: "Qual dessas coisas você acha mais importante?",
+        options: [
+            "A) Fidelidade",
+            "B) Carinho",
+            "C) Presença",
+            "D) Comunicação"
+        ],
+        correct: 0,
+        wrongMsg: "Obviamente todas são importantes ❤️"
+    },
+
+    // 6 — NÃO FOGE
+    {
+        question: "Você acha que eu seria um bom namorado? 😏",
+        options: [
+            "A) SIM",
+            "B) NÃO"
+        ],
+        correct: 0,
+        escapeIndex: 1,
+        wrongMsg: "Para de tentar fugir, safada 😂"
+    },
+
+    // 7 — AJUSTADA
+    {
+        question: "Eu sou mais:",
+        options: [
+            "A) Fofo",
+            "B) Chato",
+            "C) Gostoso",
+            "D) Tudo ao mesmo tempo"
+        ],
+        correct: 2,
+        wrongMsg: "Eu sei que sou muito fofo, mas deixa como gostoso kkkkk 😏"
+    },
+
+    // 8 — AJUSTADA
+    {
+        question: "O que você acha que eu faço mais?",
+        options: [
+            "A) Fico com saudade",
+            "B) Penso besteira",
+            "C) Penso em você",
+            "D) Todas as anteriores"
+        ],
+        correct: 3,
+        wrongMsg: "Obviamente muita saudade e muita maldade kkkk 😈"
+    },
+
+    // 9 — ABERTA
+    {
+        question: "O que você mais gosta nas minhas atitudes?",
+        open: true
+    },
+
+    // 10 — ABERTA
+    {
+        question: "O que te faz confiar em mim?",
+        open: true
+    },
+
+    // 11 FINAL — pedido de namoro (não alterada)
+    {
+        question: "Quando você gostaria de ser pedida em namoro?",
+        options: [
+            "A) 1 semana depois de ficar",
+            "B) Beijou já quero namorar",
+            "C) Quando de fato ficou intenso",
+            "D) No dia do seu aniversário",
+            "E) No ano novo"
+        ],
+        correct: 3,
+        wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️"
     }
-
-    .card {
-        background: #111;
-        border: 2px solid #e63946;
-        border-radius: 12px;
-        padding: 25px;
-        max-width: 600px;
-        margin: auto;
-        box-shadow: 0 0 20px #e6394666;
-    }
-
-    .question {
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-        color: #ff0033;
-    }
-
-    .option {
-        display: block;
-        background: #222;
-        border: 2px solid #e63946;
-        color: #fff;
-        padding: 12px;
-        margin: 10px auto;
-        max-width: 400px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-        font-size: 1.1rem;
-    }
-
-    .option:hover {
-        background: #e63946;
-    }
-
-    #message {
-        margin-top: 20px;
-        min-height: 30px;
-        font-size: 1.2rem;
-    }
-
-    #nextBtn {
-        display: none;
-        margin-top: 25px;
-        background: black;
-        border: 2px solid #008cff;
-        color: #008cff;
-        padding: 12px 22px;
-        font-size: 1.2rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    #nextBtn:hover {
-        background: #008cff;
-        color: black;
-    }
-</style>
-</head>
-
-<body>
-
-<div class="card">
-    <div id="quizBox"></div>
-
-    <div id="message"></div>
-
-    <button id="nextBtn">PRÓXIMO →</button>
-</div>
-
-<script>
-    let questionIndex = 0;
-
-    const questions = [
-        {
-            question: "Qual a data que nos conhecemos?",
-            options: [
-                "A) 12 de outubro de 2025",
-                "B) 13 de outubro de 2025",
-                "C) 14 de outubro de 2025",
-                "D) 15 de outubro de 2025"
-            ],
-            correct: 1,
-            wrongMsg: "Não acredito que errou isso sua cagona 😂"
-        },
-
-        {
-            question: "Que amendoim eu mais gosto?",
-            options: [
-                "A) Do verde",
-                "B) Apimentado",
-                "C) Tradicional",
-                "D) Não gosto de amendoim"
-            ],
-            correct: 1,
-            wrongMsg: "Minha filha… acertou nada até agora? 😭"
-        },
-
-        {
-            question: "Quando você gostaria de ser pedida em namoro?",
-            options: [
-                "A) 1 semana depois de ficar",
-                "B) Beijou já quero namorar",
-                "C) Quando de fato ficou intenso",
-                "D) No dia do seu aniversário",
-                "E) No ano novo"
-            ],
-            correct: 3,
-            wrongMsg: "Todas estão certas mas só uma vai acontecer… tente de novo ❤️"
-        }
-    ];
-
-    const quizBox = document.getElementById("quizBox");
-    const msg = document.getElementById("message");
-    const nextBtn = document.getElementById("nextBtn");
-
-    function loadQuestion() {
-        msg.textContent = "";
-        msg.style.color = "#ff9999";
-        nextBtn.style.display = "none";
-
-        let q = questions[questionIndex];
-
-        quizBox.innerHTML = `
-            <div class="question">${q.question}</div>
-            ${q.options
-                .map((opt, i) => `<div class="option" onclick="selectOption(${i})">${opt}</div>`)
-                .join("")}
-        `;
-    }
-
-    function selectOption(i) {
-        let q = questions[questionIndex];
-
-        if (i === q.correct) {
-            msg.style.color = "#00ff99";
-            msg.textContent = "Boa, minha gostosa 😍";
-            nextBtn.style.display = "block";
-        } else {
-            msg.style.color = "#ff9999";
-            msg.textContent = q.wrongMsg;
-        }
-    }
-
-    nextBtn.onclick = () => {
-        questionIndex++;
-
-        if (questionIndex >= questions.length) {
-            window.location.href = "pedido.html";
-        } else {
-            loadQuestion();
-        }
-    };
-
-    loadQuestion();
-</script>
-
-</body>
-</html>
+];
